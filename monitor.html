@@ -1,0 +1,58 @@
+<script src="https://widgets.healcode.com/javascripts/healcode.js" type="text/javascript"></script>
+
+<healcode-widget data-type="schedules" data-widget-partner="object" data-widget-id="b356422d0bc" data-widget-version="1"></healcode-widget>
+
+<script>
+  var classesToDelete = [
+    "bw-widget__preheader",
+    "bw-widget__header",
+    "bw-calendar-container",
+    "bw-widget__footer",
+    "bw-widget__cart_button",
+    "bw-session__canceled"];
+
+  var fontChangeClass = "bw-widget__date";
+  var changeFontClass = "bw-widget__date";
+  var newFontSize = 30;
+  var cancelledItemSelector = ".is-cancelled .bw-session__name";
+  var cancelledString = " - CANCELLED";
+  var zoom = 1.4;
+  
+  console.log("Setting up MutationObserver");
+  var observer = new MutationObserver(function(mutations, observer) {
+    console.log("Mutation observed");
+
+    // Set zoom of page
+    document.body.style.zoom = zoom;
+
+    // Remove elements from `classesToDelete`
+    for (var i = 0; i < classesToDelete.length; i++) { 
+      var elementsToDelete = document.getElementsByClassName(classesToDelete[i]);
+      for (var j = 0; j < elementsToDelete.length; j++) {
+        console.log("Hiding " + elementsToDelete[j]);
+        elementsToDelete[j].style.display = "none";
+      }
+    }
+
+    // Change font size of `changeFontClass`
+    var changeFontElements = document.getElementsByClassName(changeFontClass);
+    for (var i = 0; i < changeFontElements.length; i++) {
+      console.log("Changing font size of " + changeFontElements[i]);
+      changeFontElements[i].style.fontSize = newFontSize;
+      changeFontElements[i].style.padding = newFontSize / 2;
+    }
+
+    // Add cancelled text to `cancelledItemSelector`
+    var cancelledItemElements = document.querySelectorAll(cancelledItemSelector);
+    for (var i = 0; i < cancelledItemElements.length; i++) {
+      if (cancelledItemElements[i].innerHTML.indexOf(cancelledString) !== -1) {
+        continue;
+      }
+
+      console.log("Appending cancelled string to " + cancelledItemElements[i]);
+      cancelledItemElements[i].innerHTML += cancelledString;
+    }
+  });
+  observer.observe(document, {subtree: true, attributes: true});
+</script>
+
